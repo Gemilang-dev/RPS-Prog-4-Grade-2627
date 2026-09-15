@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: rps-prog-4-grade-2627
+    runtime: node
+    plan: free
+    buildCommand: ""
+    startCommand: "npm start"
+    envVars:
+      - key: NODE_VERSION
+        value: 20

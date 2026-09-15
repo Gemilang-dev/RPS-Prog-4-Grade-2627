@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homework 11</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/security.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="../../index.html" class="brand">
+        <div class="brand-icon">💻</div>
+        <div class="brand-info">
+          <span class="brand-title">Programming Homework Portal</span>
+          <span class="brand-subtitle">Grade 4 • Academic Year 2026/2027</span>
+        </div>
+      </a>
+      <div class="nav-badges">
+        <span class="badge-tag">HW 11</span>
+        <span class="badge-tag shield">🔒 Anti-AI Protected</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-wrapper">
+    <nav class="breadcrumbs">
+      <a href="../../index.html">🏠 Home</a>
+      <span class="breadcrumb-separator">/</span>
+      <span class="breadcrumb-current" id="breadcrumbHwTitle">Homework 11</span>
+    </nav>
+
+    <div class="section-header">
+      <div>
+        <h1 class="section-title" id="hwTitleDisplay">Homework 11</h1>
+        <p class="section-subtitle">Select your question package below. Student names are extracted automatically from each HTML question file.</p>
+      </div>
+      <a href="../../index.html" class="btn-back-nav">
+        <span>⬅️ Change Homework</span>
+      </a>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="student-filter-bar">
+      <div class="search-box-wrapper" style="max-width: 100%;">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          id="packageSearchInput" 
+          class="search-input" 
+          placeholder="Search by student name..."
+          autocomplete="off"
+        >
+      </div>
+    </div>
+
+    <!-- Live Dynamic Package Grid -->
+    <div class="student-grid" id="packageGrid">
+      <!-- Loaded dynamically from the HTML files in this folder -->
+    </div>
+
+    <!-- Empty State Message -->
+    <div id="noPackageMessage" style="display: none; text-align: center; padding: 50px 20px; color: #64748b;">
+      <div style="font-size: 3rem; margin-bottom: 10px;">📂</div>
+      <h3 style="color: #0f172a; margin-bottom: 6px;">No Question Packages Found</h3>
+      <p>Question packages for Homework 11 will appear here once HTML files are placed in this folder.</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p><strong>Grade 4 Programming Homework Portal</strong> • Academic Year 2026/2027</p>
+      <div class="footer-shield">
+        <span>🛡️</span>
+        <span>Anti-Copy &amp; Anti-AI Protection Active</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/security.js"></script>
+  <script src="../../js/homework-loader.js"></script>
+</body>
+</html>

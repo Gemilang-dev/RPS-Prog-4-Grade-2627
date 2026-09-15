@@ -1,0 +1,21 @@
+{
+  "name": "rps-prog-4-grade-2627",
+  "version": "2.0.0",
+  "description": "Grade 4 Programming Homework Portal (Academic Year 2026/2027) with individual student question packages and anti-AI / anti-copy security",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "generate": "node scripts/generate-homeworks.js"
+  },
+  "keywords": [
+    "grade-4",
+    "elementary-programming",
+    "homework-portal",
+    "anti-ai",
+    "anti-cheat",
+    "mpa"
+  ],
+  "author": "Grade 4 Computer Science Department",
+  "license": "MIT"
+}

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hamza Đuderija - Homework 2</title>
+    <link rel="stylesheet" href="../../css/security.css">
+    <style>
+        @page {
+            size: A4;
+            margin: 18mm 15mm 18mm 15mm;
+            background-color: #fdfbf7;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            font-size: 10.5pt;
+            line-height: 1.6;
+            color: #2d3748;
+            margin: 0;
+            padding: 24px 20px;
+            background-color: #fdfbf7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #cbd5e1;
+            font-size: 9.5pt;
+        }
+
+        .top-nav a {
+            color: #2b6cb0;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .top-nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Header Section */
+        .header-container {
+            border-bottom: 2px solid #2b6cb0;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 18pt;
+            font-weight: 700;
+            color: #1a365d;
+            margin: 0 0 8px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+        }
+
+        .meta-table td {
+            padding: 4px 0;
+            font-size: 10.5pt;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            color: #4a5568;
+            width: 130px;
+        }
+
+        .meta-value {
+            color: #2d3748;
+            font-weight: 500;
+        }
+
+        .student-name-val {
+            font-weight: 700;
+            color: #2b6cb0;
+            font-size: 11pt;
+        }
+
+        /* Instructions Card */
+        .instructions-card {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #dd6b20;
+            border-radius: 4px;
+            padding: 14px 16px;
+            margin-bottom: 24px;
+        }
+
+        .instructions-title {
+            font-size: 11pt;
+            font-weight: 700;
+            color: #c05621;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .instructions-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .instructions-list li {
+            margin-bottom: 6px;
+            color: #4a5568;
+        }
+
+        .instructions-list li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .ai-warning {
+            color: #c53030;
+            font-weight: 600;
+        }
+
+        /* Section Header */
+        .section-header {
+            font-size: 13pt;
+            font-weight: 700;
+            color: #2b6cb0;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 6px;
+            margin: 24px 0 16px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            page-break-after: avoid;
+        }
+
+        /* Question Cards */
+        .question-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            page-break-inside: avoid;
+        }
+
+        .question-header {
+            display: table;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .weight-badge {
+            display: inline-block;
+            background-color: #ebf8ff;
+            color: #2b6cb0;
+            border: 1px solid #bee3f8;
+            font-weight: 700;
+            font-size: 9.5pt;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+
+        .question-title {
+            font-weight: 700;
+            color: #1a202c;
+            font-size: 11pt;
+        }
+
+        .question-body {
+            color: #4a5568;
+            margin: 0;
+            font-size: 10.5pt;
+        }
+        
+        .code-block {
+            background-color: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 9.5pt;
+            color: #0f172a;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-nav">
+        <a href="index.html">⬅️ Back to Homework 2 Packages</a>
+        <a href="../../index.html">🏠 Portal Home</a>
+    </div>
+
+    <!-- Header Section -->
+    <div class="header-container">
+        <h1 class="title">Homework 2</h1>
+        <table class="meta-table">
+            <tr>
+                <td class="meta-label">Student Name:</td>
+                <td class="meta-value student-name student-name-val">Hamza Đuderija</td>
+            </tr>
+            <tr>
+                <td class="meta-label">Course:</td>
+                <td class="meta-value">Programming (Semester 1)</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Instructions Section -->
+    <div class="instructions-card">
+        <div class="instructions-title">Important Instructions for Students</div>
+        <ul class="instructions-list">
+            <li><strong>Language:</strong> All answers must be written entirely in English.</li>
+            <li><strong>Ink Color Rule:</strong> You must write your answers using any pen color except red.</li>
+            <li class="ai-warning"><strong>AI Policy &amp; Anti-Cheating Warning:</strong> You are allowed to use AI to assist your learning, but its direct usage must be strictly limited. The maximum tolerance for AI-generated content in this assignment is 15%. If your work is flagged and detected to exceed this 15% limit, you will automatically receive a grade of 0 for the entire assignment.</li>
+            <li><strong>Late Submission:</strong> Any late submissions will automatically receive a grade of 0 points.</li>
+            <li><strong>Grading Weight:</strong> Each question carries a different percentage weight indicated in brackets [X%] before the question number. Total weight equals 100%.</li>
+        </ul>
+    </div>
+
+    <!-- Part A Section -->
+    <div class="section-header">Part A: C++ Pointers &amp; Step-by-Step Debugging</div>
+
+    <!-- Question 1 -->
+    <div class="question-card">
+        <div class="question-header">
+            <span class="weight-badge">[15%]</span>
+            <span class="question-title">Question 1: The Ampersand (&amp;) Concept</span>
+        </div>
+        <p class="question-body">When we run <code>cout &lt;&lt; &amp;speed_sensor;</code> in C++, the screen prints a randomized hexadecimal combination (like <code>0x7ffe71c39a20</code>). Explain the specific function of the <code>&amp;</code> symbol when placed directly in front of a variable in your own words.</p>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="question-card">
+        <div class="question-header">
+            <span class="weight-badge">[25%]</span>
+            <span class="question-title">Question 2: Pointer Step-by-Step Debugging</span>
+        </div>
+        <p class="question-body">Analyze the following C++ code snippet assigned specifically to your question set. Debug the code step-by-step by explaining exactly what happens in the computer's memory at each numbered line.</p>
+        <div class="code-block">
+int fuel = 60;                // Step 1<br>
+int* tank_gauge = &fuel;      // Step 2<br>
+*tank_gauge = 190;            // Step 3<br>
+int current_fuel = fuel;      // Step 4
+        </div>
+        <p class="question-body"><em>Write your answer in a step-by-step list (Step 1 to Step 4), describing what data is stored, what the pointer is pointing to, and how the values change.</em></p>
+    </div>
+
+    <!-- Part B Section -->
+    <div class="section-header">Part B: Instruction Architecture &amp; Opcode Reference</div>
+
+    <!-- Question 3 -->
+    <div class="question-card">
+        <div class="question-header">
+            <span class="weight-badge">[15%]</span>
+            <span class="question-title">Question 3: CPU Instruction Formats</span>
+        </div>
+        <p class="question-body">In assembly language, instructions can be formatted differently based on how many addresses they use.<br><br>
+        <strong>Draw/Illustrate:</strong> Provide a simple conceptual drawing (using boxes) representing a <strong>"One-Address Instruction"</strong> and a <strong>"Two-Address Instruction"</strong>.<br><br>
+        <strong>Explain:</strong> Clearly define the distinct parts of an instruction: What is an <strong>Opcode</strong>? What is an <strong>Operand</strong>?</p>
+    </div>
+
+    <!-- Question 4 -->
+    <div class="question-card">
+        <div class="question-header">
+            <span class="weight-badge">[15%]</span>
+            <span class="question-title">Question 4: Opcode Reference Table</span>
+        </div>
+        <p class="question-body">Visit the following link: <a href="https://bit.ly/46tNCQy" target="_blank">https://bit.ly/46tNCQy</a>.<br><br>
+        <strong>Your Task:</strong> Find the material regarding the assembly instruction table in that document. Recreate the table on your answer sheet, or make a clear, well-structured list based on the table provided in that link. <br><br>
+        Make sure to include all relevant information (Instruction, Mnemonic, Binary Code, and Command/Description) for the Add, Subtract, Load, Store, and Stop/Halt operations, as you will need this data to solve the next questions.</p>
+    </div>
+
+    <!-- Part C Section -->
+    <div class="section-header">Part C: Machine Code Translation</div>
+
+    <!-- Question 5 -->
+    <div class="question-card">
+        <div class="question-header">
+            <span class="weight-badge">[15%]</span>
+            <span class="question-title">Question 5: Assembly to Binary Translation</span>
+        </div>
+        <p class="question-body">Translate the following 3 Assembly instructions into 16-bit binary machine code using the specific binary codes from the table you recreated in Q4. Assume a 16-bit instruction format where the first 8 bits are the Opcode, followed by an 8-bit memory address/operand.<br><br>
+        <strong>You must clearly underline or mark which part is the OPCODE and which part is the OPERAND/ADDRESS.</strong><br><br>
+        1. <code>LDA 11100001</code><br>
+        2. <code>SUB 00011110</code><br>
+        3. <code>STA 10100101</code></p>
+    </div>
+
+    <!-- Question 6 -->
+    <div class="question-card">
+        <div class="question-header">
+            <span class="weight-badge">[15%]</span>
+            <span class="question-title">Question 6: Binary to Assembly Translation</span>
+        </div>
+        <p class="question-body">Reverse the process. Using the specific binary codes from the table you created in Q4, write down <strong>3 complete 16-bit binary instructions</strong> of your own creation (using the opcodes for ADD, LDA, HLT combined with any 8-bit operands you like).<br><br>
+        Write the 3 binary instructions down, and then translate them back into human-readable Assembly mnemonics. Clearly label which part is the opcode and which part is the operand.</p>
+    </div>
+
+</div>
+
+<!-- Anti-Copy Protection Script -->
+<script src="../../js/security.js"></script>
+</body>
+</html>
