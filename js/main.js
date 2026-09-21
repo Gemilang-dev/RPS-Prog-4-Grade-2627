@@ -1,33 +1,171 @@
 /**
- * Homework Directory Loader (main.js)
- * Generates 16 Homework buttons (Homework 1 to Homework 16)
+ * Main JS - Handles Login, Dashboard, and Data Fetching
  */
 
+const API_BASE = '/api';
+
 document.addEventListener('DOMContentLoaded', () => {
-  const grid = document.getElementById('homeworkGrid');
-  if (!grid) return;
+  const loginSection = document.getElementById('login-section');
+  const dashboardSection = document.getElementById('dashboard-section');
+  const loginForm = document.getElementById('loginForm');
+  const loginError = document.getElementById('loginError');
+  const userInfo = document.getElementById('user-info');
+  const studentNameDisplay = document.getElementById('student-name-display');
+  const btnLogout = document.getElementById('btnLogout');
+  const welcomeText = document.getElementById('welcome-text');
 
-  grid.innerHTML = '';
+  const mainMenu = document.getElementById('mainMenu');
+  const contentView = document.getElementById('content-view');
+  const contentTitle = document.getElementById('content-title');
+  const contentList = document.getElementById('content-list');
+  const btnBackToMenu = document.getElementById('btnBackToMenu');
 
-  for (let i = 1; i <= 16; i++) {
-    const card = document.createElement('div');
-    card.className = 'hw-card';
-
-    card.innerHTML = `
-      <div class="hw-card-top">
-        <div class="hw-icon">📝</div>
-        <span class="hw-badge badge-green">HW ${i}</span>
-      </div>
-      <h3 class="hw-card-title">Homework ${i}</h3>
-      <p class="hw-card-desc" style="margin-bottom: 1.25rem;">
-        Click to view question packages for Homework ${i}.
-      </p>
-      <a href="homework/homework-${i}/index.html" class="btn-choose-hw">
-        <span>Open Homework ${i}</span>
-        <span>➔</span>
-      </a>
-    `;
-
-    grid.appendChild(card);
+  // Check login state on load
+  const token = localStorage.getItem('token');
+  if (token) {
+    fetchUserData();
   }
+
+  // --- Auth Handlers ---
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    
+    try {
+      loginError.textContent = 'Logging in...';
+      const res = await fetch(`${API_BASE}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Login failed');
+      }
+      
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('student', JSON.stringify(data.student));
+      
+      loginError.textContent = '';
+      showDashboard(data.student);
+    } catch (err) {
+      loginError.textContent = err.message;
+    }
+  });
+
+  btnLogout.addEventListener('click', () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('student');
+    showLogin();
+  });
+
+  async function fetchUserData() {
+    try {
+      const res = await fetch(`${API_BASE}/me`, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      if (!res.ok) throw new Error('Token invalid');
+      const student = await res.json();
+      localStorage.setItem('student', JSON.stringify(student));
+      showDashboard(student);
+    } catch (err) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('student');
+      showLogin();
+    }
+  }
+
+  function showLogin() {
+    loginSection.classList.remove('hidden');
+    dashboardSection.classList.add('hidden');
+    userInfo.classList.add('hidden');
+  }
+
+  function showDashboard(student) {
+    loginSection.classList.add('hidden');
+    dashboardSection.classList.remove('hidden');
+    userInfo.classList.remove('hidden');
+    
+    studentNameDisplay.textContent = student.name || student.username;
+    welcomeText.textContent = `Welcome, ${student.name || student.username}!`;
+    
+    // Reset view to main menu
+    mainMenu.classList.remove('hidden');
+    contentView.classList.add('hidden');
+  }
+
+  // --- Menu Handlers ---
+
+  document.querySelectorAll('.menu-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const view = card.getAttribute('data-view');
+      loadContent(view);
+    });
+  });
+
+  btnBackToMenu.addEventListener('click', () => {
+    contentView.classList.add('hidden');
+    mainMenu.classList.remove('hidden');
+  });
+
+  async function loadContent(viewType) {
+    mainMenu.classList.add('hidden');
+    contentView.classList.remove('hidden');
+    contentList.innerHTML = '<p>Loading...</p>';
+    
+    let title = '';
+    let endpoint = '';
+    
+    if (viewType === 'materials') {
+      title = 'Materi Pelajaran';
+      endpoint = '/materials';
+    } else if (viewType === 'daily-tasks') {
+      title = 'Soal Latihan (Tugas Harian)';
+      endpoint = '/daily-tasks';
+    } else if (viewType === 'homeworks') {
+      title = 'PR (Homework)';
+      endpoint = '/homeworks';
+    }
+    
+    contentTitle.textContent = title;
+    
+    try {
+      const res = await fetch(`${API_BASE}${endpoint}`, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      if (!res.ok) throw new Error('Failed to load data');
+      const data = await res.json();
+      
+      contentList.innerHTML = '';
+      if (data.length === 0) {
+        contentList.innerHTML = '<p>Belum ada data tersedia.</p>';
+        return;
+      }
+      
+      data.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'content-item';
+        div.innerHTML = `
+          <h3 style="margin-bottom: 0.5rem;">${item.title}</h3>
+          <p style="color: #64748b; font-size: 0.95rem;">${item.content || item.description || ''}</p>
+          ${viewType === 'daily-tasks' ? `<button class="btn-choose-hw" style="margin-top: 1rem;" onclick="startTask(${item.id})">Kerjakan Latihan</button>` : ''}
+          ${viewType === 'homeworks' ? `<a href="homework/homework-${item.id}/index.html" class="btn-choose-hw" style="display:inline-flex; margin-top: 1rem;">Buka PR</a>` : ''}
+        `;
+        contentList.appendChild(div);
+      });
+      
+    } catch (err) {
+      contentList.innerHTML = `<p style="color: red;">Error: ${err.message}</p>`;
+    }
+  }
+
 });
+
+// Global function for daily task button (Example)
+window.startTask = async function(taskId) {
+  alert(`Memulai Tugas Harian ID: ${taskId}\nSistem akan merekam progres Anda.`);
+  // Here we would ideally open the quiz UI and then submit the log to /api/daily-tasks/:taskId/log
+};
