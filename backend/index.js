@@ -223,10 +223,7 @@ app.get('/api/homework/:id', (req, res) => {
 // Serve frontend static files
 app.use(express.static(path.join(__dirname, '..')));
 
-// Fallback to index.html for SPA-like behavior (optional)
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'index.html'));
-});
+// (SPA Fallback removed to fix Express 5 PathError)
 
 app.listen(PORT, () => {
     console.log(`Backend server running on port ${PORT}`);
