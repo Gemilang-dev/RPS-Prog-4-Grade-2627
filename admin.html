@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Add Content</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .admin-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: var(--bg-card);
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-family: inherit;
+    }
+    .btn-submit {
+      background: var(--primary);
+      color: white;
+      padding: 0.85rem 1.5rem;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn-submit:hover {
+      background: var(--primary-hover);
+    }
+    .message {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">💻</div>
+        <div class="brand-info">
+          <span class="brand-title">Admin Dashboard</span>
+          <span class="brand-subtitle">Content Manager</span>
+        </div>
+      </a>
+      <a href="index.html" style="font-weight: bold;">← Back to Portal</a>
+    </div>
+  </header>
+
+  <main class="main-wrapper">
+    <div class="admin-container">
+      <h2 style="margin-bottom: 1.5rem;">Add New Content</h2>
+      <form id="addContentForm">
+        
+        <div class="form-group">
+          <label for="contentType">Content Type</label>
+          <select id="contentType">
+            <option value="materials">Material</option>
+            <option value="daily-tasks">Daily Task (Soal Latihan)</option>
+            <option value="homeworks">Homework (PR)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" id="title" required placeholder="e.g., Introduction to Python">
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description / Content</label>
+          <textarea id="description" rows="5" required placeholder="Enter the content or task description here..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Add Content</button>
+        <div id="statusMessage" class="message"></div>
+
+      </form>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('addContentForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const type = document.getElementById('contentType').value;
+      const title = document.getElementById('title').value;
+      const content = document.getElementById('description').value;
+      
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert("You must be logged in to add content!");
+        return;
+      }
+      
+      const payload = { title: title };
+      if (type === 'materials') payload.content = content;
+      else payload.description = content;
+
+      try {
+        const res = await fetch(`/api/${type}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(payload)
+        });
+        
+        if (!res.ok) throw new Error("Failed to add content. Server error.");
+        
+        document.getElementById('statusMessage').textContent = "Successfully added new content!";
+        document.getElementById('statusMessage').style.color = "green";
+        document.getElementById('addContentForm').reset();
+        
+        setTimeout(() => { document.getElementById('statusMessage').textContent = ''; }, 3000);
+        
+      } catch (err) {
+        document.getElementById('statusMessage').textContent = err.message;
+        document.getElementById('statusMessage').style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

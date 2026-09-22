@@ -120,13 +120,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let endpoint = '';
     
     if (viewType === 'materials') {
-      title = 'Materi Pelajaran';
+      title = 'Study Materials';
       endpoint = '/materials';
     } else if (viewType === 'daily-tasks') {
-      title = 'Soal Latihan (Tugas Harian)';
+      title = 'Daily Tasks';
       endpoint = '/daily-tasks';
     } else if (viewType === 'homeworks') {
-      title = 'PR (Homework)';
+      title = 'Homework Projects';
       endpoint = '/homeworks';
     }
     
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       contentList.innerHTML = '';
       if (data.length === 0) {
-        contentList.innerHTML = '<p>Belum ada data tersedia.</p>';
+        contentList.innerHTML = '<p>No data available yet.</p>';
         return;
       }
       
@@ -151,8 +151,8 @@ document.addEventListener('DOMContentLoaded', () => {
         div.innerHTML = `
           <h3 style="margin-bottom: 0.5rem;">${item.title}</h3>
           <p style="color: #64748b; font-size: 0.95rem;">${item.content || item.description || ''}</p>
-          ${viewType === 'daily-tasks' ? `<button class="btn-choose-hw" style="margin-top: 1rem;" onclick="startTask(${item.id})">Kerjakan Latihan</button>` : ''}
-          ${viewType === 'homeworks' ? `<a href="homework/homework-${item.id}/index.html" class="btn-choose-hw" style="display:inline-flex; margin-top: 1rem;">Buka PR</a>` : ''}
+          ${viewType === 'daily-tasks' ? `<button class="btn-choose-hw" style="margin-top: 1rem;" onclick="startTask(${item.id})">Start Task</button>` : ''}
+          ${viewType === 'homeworks' ? `<a href="homework/homework-${item.id}/index.html" class="btn-choose-hw" style="display:inline-flex; margin-top: 1rem;">Open Homework</a>` : ''}
         `;
         contentList.appendChild(div);
       });
@@ -166,6 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Global function for daily task button (Example)
 window.startTask = async function(taskId) {
-  alert(`Memulai Tugas Harian ID: ${taskId}\nSistem akan merekam progres Anda.`);
+  alert(`Starting Daily Task ID: ${taskId}\nThe system will record your progress.`);
   // Here we would ideally open the quiz UI and then submit the log to /api/daily-tasks/:taskId/log
 };

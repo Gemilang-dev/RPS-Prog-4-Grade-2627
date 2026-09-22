@@ -114,6 +114,15 @@ app.get('/api/materials', authenticateToken, async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+app.post('/api/materials', authenticateToken, async (req, res) => {
+    try {
+        const { title, content } = req.body;
+        const result = await pool.query('INSERT INTO materials (title, content) VALUES ($1, $2) RETURNING *', [title, content]);
+        res.json(result.rows[0]);
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
 
 // Daily Tasks (Soal Latihan)
 app.get('/api/daily-tasks', authenticateToken, async (req, res) => {
@@ -124,12 +133,30 @@ app.get('/api/daily-tasks', authenticateToken, async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+app.post('/api/daily-tasks', authenticateToken, async (req, res) => {
+    try {
+        const { title, description } = req.body;
+        const result = await pool.query('INSERT INTO daily_tasks (title, description) VALUES ($1, $2) RETURNING *', [title, description]);
+        res.json(result.rows[0]);
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
 
 // Homeworks (PR)
 app.get('/api/homeworks', authenticateToken, async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM homeworks ORDER BY id ASC');
         res.json(result.rows);
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+app.post('/api/homeworks', authenticateToken, async (req, res) => {
+    try {
+        const { title, description } = req.body;
+        const result = await pool.query('INSERT INTO homeworks (title, description) VALUES ($1, $2) RETURNING *', [title, description]);
+        res.json(result.rows[0]);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }
