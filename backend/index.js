@@ -65,8 +65,15 @@ const authenticateToken = (req, res, next) => {
 
 // Routes
 
+// Test Ping Endpoint
+app.get('/api/ping', (req, res) => {
+    res.json({ message: 'Pong from Express backend!', timestamp: new Date() });
+});
+
 // Login Endpoint
 app.post('/api/login', async (req, res) => {
+    console.log('--- LOGIN ATTEMPT RECEIVED ---');
+    console.log('Body:', req.body);
     const { username, password } = req.body;
     try {
         const result = await pool.query('SELECT * FROM students WHERE username = $1', [username]);
