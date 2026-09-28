@@ -145,7 +145,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!packageGrid) return;
     packageGrid.innerHTML = '';
 
-    const filtered = loadedPackages.filter(pkg => {
+    const rawStudent = localStorage.getItem('student');
+    let currentUser = null;
+    try {
+      if (rawStudent) currentUser = JSON.parse(rawStudent);
+    } catch(e) {}
+
+    let packagesToDisplay = loadedPackages;
+
+    // Filter packages if user is a student
+    if (currentUser && currentUser.role === 'student') {
+      const normalize = str => (str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      const normUser = normalize(currentUser.username);
+      const normName = normalize(currentUser.name);
+
+      packagesToDisplay = loadedPackages.filter(pkg => {
+        const normFile = normalize(pkg.file);
+        const normStudentName = normalize(pkg.studentName);
+        return (
+          (normUser && (normFile.includes(normUser) || normStudentName.includes(normUser))) ||
+          (normName && (normFile.includes(normName) || normStudentName.includes(normName))) ||
+          (normName && normName.split(' ')[0] && normFile.includes(normName.split(' ')[0]))
+        );
+      });
+    }
+
+    const filtered = packagesToDisplay.filter(pkg => {
       const q = currentSearchQuery.toLowerCase().trim();
       return !q || pkg.studentName.toLowerCase().includes(q) || pkg.file.toLowerCase().includes(q);
     });
@@ -158,6 +183,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             <div style="font-size: 3rem; margin-bottom: 10px;">📂</div>
             <h3 style="color: #0f172a; margin-bottom: 6px;">No Question Files Uploaded Yet</h3>
             <p>Question packages for Homework ${hwNum} will appear here once HTML files are added to this folder.</p>
+          `;
+        } else {
+          noPackageMessage.innerHTML = `
+            <div style="font-size: 3rem; margin-bottom: 10px;">🔒</div>
+            <h3 style="color: #0f172a; margin-bottom: 6px;">Access Restricted</h3>
+            <p>You only have permission to view your own assigned homework package.</p>
           `;
         }
       }

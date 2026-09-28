@@ -288,8 +288,7 @@ function generateStudentHtml(student) {
 
 <div class="container">
     <div class="top-nav">
-        <a href="index.html">⬅️ Back to Homework 2 Packages</a>
-        <a href="../../index.html">🏠 Portal Home</a>
+        <a href="../../index.html">⬅️ Return to Student Dashboard</a>
     </div>
 
     <!-- Header Section -->

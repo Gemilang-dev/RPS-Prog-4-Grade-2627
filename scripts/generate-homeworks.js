@@ -140,7 +140,7 @@ function generatePackageHtml(hw, student) {
     <nav class="breadcrumbs">
       <a href="../../index.html">🏠 Home</a>
       <span class="breadcrumb-separator">/</span>
-      <a href="index.html">Homework ${hw.num} Packages</a>
+      <a href="../../index.html">Student Dashboard</a>
       <span class="breadcrumb-separator">/</span>
       <span class="breadcrumb-current">${student.name}</span>
     </nav>
@@ -305,11 +305,8 @@ function generatePackageHtml(hw, student) {
 
         <!-- Navigation Buttons -->
         <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-          <a href="index.html" class="btn-back-nav" style="justify-content: center;">
-            <span>👥 Back to Packages (HW ${hw.num})</span>
-          </a>
           <a href="../../index.html" class="btn-back-nav" style="justify-content: center;">
-            <span>🏠 Main Portal Home</span>
+            <span>⬅️ Return to Student Dashboard</span>
           </a>
         </div>
       </aside>

@@ -81,6 +81,19 @@
       ],
       "status": "RESOLVED",
       "instructions_for_next_ai": "When starting on a new device, check DATABASE_URL environment variable in Render. On deployment, node index.js will execute init.sql to build tables automatically and seed default data. Default admin login is admin/admin123."
+    },
+    {
+      "timestamp": "2026-09-28T22:15:00+02:00",
+      "author": "Antigravity AI",
+      "action": "Fixed homework exit navigation & enforced student package access security.",
+      "issue_diagnosed": "Exiting a homework assignment directed students to homework/homework-X/index.html (Homework Package Grid) instead of Student Dashboard (../../index.html), allowing students to view and access other students' homework packages.",
+      "changes_made": [
+        "Updated all exit/back links across all homework HTML files and scripts (generate-homeworks.js, setup-homework-2.js) to point directly to '../../index.html' (Student Dashboard).",
+        "Enhanced js/security.js to block students from viewing package files that do not belong to them, automatically redirecting non-owners to '../../index.html'.",
+        "Updated js/homework-loader.js to filter package cards on homework/homework-X/index.html so student accounts only see their own assigned package card, while admin accounts can view all cards."
+      ],
+      "status": "RESOLVED",
+      "instructions_for_next_ai": "Students exiting homework will now return directly to the Student Dashboard (../../index.html). If a student attempts to open another student's homework URL, security.js will block access and redirect to the Student Dashboard."
     }
   ]
 }
