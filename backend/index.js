@@ -35,15 +35,89 @@ const requireAdmin = (req, res, next) => {
 // ================= DB INIT & SEED =================
 const initDB = async () => {
     try {
-        // Only run initialization if it hasn't been run
+        // 1. Ensure tables exist by running init.sql
+        const sqlPath = path.join(__dirname, 'init.sql');
+        if (fs.existsSync(sqlPath)) {
+            const sql = fs.readFileSync(sqlPath, 'utf8');
+            await pool.query(sql);
+            console.log('✔ Database tables initialized successfully from init.sql');
+        }
+
+        // 2. Seed Admin if not exists
         const adminRes = await pool.query("SELECT COUNT(*) FROM users WHERE role = 'admin'");
         if (parseInt(adminRes.rows[0].count) === 0) {
-            const hashed = await bcrypt.hash('admin123', 10);
-            await pool.query("INSERT INTO users (username, password, name, role) VALUES ($1, $2, $3, 'admin')", ['admin', hashed, 'Administrator']);
-            console.log('Seeded Admin (admin/admin123)');
+            const hashedAdmin = await bcrypt.hash('admin123', 10);
+            await pool.query("INSERT INTO users (username, password, name, role) VALUES ($1, $2, $3, 'admin')", ['admin', hashedAdmin, 'Administrator']);
+            console.log('✔ Seeded default admin (admin / admin123)');
+        }
+
+        // 3. Seed Students if none exist
+        const studentRes = await pool.query("SELECT COUNT(*) FROM users WHERE role = 'student'");
+        if (parseInt(studentRes.rows[0].count) === 0) {
+            const hashedStudent = await bcrypt.hash('student123', 10);
+            const defaultStudents = [
+                { username: 'amish', name: 'Amish Mohamed' },
+                { username: 'hanan', name: 'Šarić Hanan' },
+                { username: 'hana', name: 'Ibrulj Hana' },
+                { username: 'emina', name: 'Mešić Emina' },
+                { username: 'ahmed', name: 'Delić Ahmed' },
+                { username: 'hamza', name: 'Đuderija Hamza' }
+            ];
+            for (const s of defaultStudents) {
+                await pool.query(
+                    "INSERT INTO users (username, password, name, role) VALUES ($1, $2, $3, 'student') ON CONFLICT (username) DO NOTHING",
+                    [s.username, hashedStudent, s.name]
+                );
+            }
+            console.log('✔ Seeded default student accounts (password: student123)');
+        }
+
+        // 4. Seed Topics & Question Bank from CSV if topics table is empty
+        const topicRes = await pool.query("SELECT COUNT(*) FROM topics");
+        if (parseInt(topicRes.rows[0].count) === 0) {
+            console.log('Seeding topics & question bank from CSV...');
+            const csvFilePath = path.join(__dirname, '..', 'Lesson Plan Programming 4C - Lesson Plan.csv');
+            if (fs.existsSync(csvFilePath)) {
+                const csv = require('csv-parser');
+                const results = [];
+                fs.createReadStream(csvFilePath)
+                    .pipe(csv())
+                    .on('data', (data) => results.push(data))
+                    .on('end', async () => {
+                        try {
+                            for (const row of results) {
+                                const lessonNo = row['LESSON NO.'];
+                                if (!lessonNo || lessonNo.trim() === '') continue;
+                                const topicName = `Lesson ${lessonNo}: ${row['KEY CONTENT / LESSON UNIT']}`;
+                                const topicRes = await pool.query('INSERT INTO topics (name, is_locked) VALUES ($1, false) RETURNING id', [topicName]);
+                                const topicId = topicRes.rows[0].id;
+                                const content = `<h2>Objective</h2><p>${row['LEARNING OUTCOME']}</p><br><h3>Indicator</h3><p>${row['INDICATOR']}</p><br><p><strong>Date:</strong> ${row['DATE']}</p><p><strong>Thematic Area:</strong> ${row['THEMATIC AREA']}</p><p><strong>In-Class Task:</strong> ${row['IN-CLASS DAILY TASK (6 Students / 1 Hour)']}</p>`;
+                                await pool.query('INSERT INTO materials (topic_id, title, type, content) VALUES ($1, $2, $3, $4)', [topicId, topicName, 'html', content]);
+                                const qPool = [
+                                    { q: `What is the key content of this lesson?`, a: row['KEY CONTENT / LESSON UNIT'] },
+                                    { q: `What is the thematic area of this lesson?`, a: row['THEMATIC AREA'] },
+                                    { q: `What date is this lesson scheduled for?`, a: row['DATE'] },
+                                    { q: `Is the learning outcome to "${row['LEARNING OUTCOME']}"? (Yes/No)`, a: "Yes" },
+                                    { q: `Is the indicator to "${row['INDICATOR']}"? (Yes/No)`, a: "Yes" },
+                                    { q: `What unit number does this lesson belong to?`, a: row['UNIT NO.'] },
+                                    { q: `What is the assigned homework for this lesson? (Type '-' if none)`, a: row['HOMEWORK / PR'] || "-" },
+                                    { q: `Write the lesson number as a digit.`, a: row['LESSON NO.'] },
+                                    { q: `Does this lesson involve coding or theory? (Answer based on your understanding of ${row['THEMATIC AREA']})`, a: "Both" },
+                                    { q: `Review: Write 'Ready' to confirm you have read the learning outcome.`, a: "Ready" }
+                                ];
+                                for (const q of qPool) {
+                                    await pool.query('INSERT INTO question_bank (topic_id, type, question_text, expected_answer) VALUES ($1, $2, $3, $4)', [topicId, 'short_answer', q.q, q.a]);
+                                }
+                            }
+                            console.log('✔ CSV topics & questions seeding complete.');
+                        } catch (seedErr) {
+                            console.error('Error seeding CSV data:', seedErr.message);
+                        }
+                    });
+            }
         }
     } catch (err) {
-        console.error('Error checking admin:', err.message);
+        console.error('Error initializing database:', err.message);
     }
 };
 initDB();

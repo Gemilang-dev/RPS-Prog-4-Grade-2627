@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "name": "RPS Grade 4 Programming Homework Portal (2026/2027)",
+    "description": "Grade 4 Programming Homework Portal with student packages, daily tasks, exam monitoring, anti-cheat security, and PostgreSQL/Supabase backend.",
+    "version": "2.0.0",
+    "deployment": {
+      "platform": "Render",
+      "primary_url": "https://rps-portal-rso2.onrender.com",
+      "root_dir": "backend",
+      "build_command": "npm install",
+      "start_command": "npm start"
+    },
+    "tech_stack": {
+      "frontend": "HTML, CSS, JavaScript (Vanilla)",
+      "backend": "Node.js (Express)",
+      "database": "PostgreSQL / Supabase",
+      "auth": "JWT & bcrypt"
+    },
+    "environment_variables": [
+      {
+        "key": "DATABASE_URL",
+        "description": "Supabase / PostgreSQL connection string URI"
+      },
+      {
+        "key": "JWT_SECRET",
+        "description": "Secret key used for signing JWT tokens"
+      },
+      {
+        "key": "NODE_ENV",
+        "description": "Set to 'production' on Render"
+      }
+    ]
+  },
+  "database": {
+    "init_script": "backend/init.sql",
+    "auto_migration": true,
+    "tables": [
+      "users",
+      "topics",
+      "materials",
+      "question_bank",
+      "homeworks",
+      "daily_task_attempts",
+      "exams",
+      "exam_questions",
+      "exam_submissions",
+      "exam_answers"
+    ],
+    "views": [
+      "students"
+    ],
+    "default_accounts": {
+      "admin": [
+        {
+          "username": "admin",
+          "password": "admin123",
+          "role": "admin"
+        }
+      ],
+      "students_default_password": "student123",
+      "student_usernames": [
+        "amish",
+        "hanan",
+        "hana",
+        "emina",
+        "ahmed",
+        "hamza"
+      ]
+    }
+  },
+  "ai_activity_logs": [
+    {
+      "timestamp": "2026-09-28T18:56:00+02:00",
+      "author": "Antigravity AI",
+      "action": "Created vibecode-log.json and updated backend auto-migration for Supabase deployment.",
+      "issue_diagnosed": "Render backend failed on launch with error: 'relation \"users\" does not exist' because Supabase DB was empty and init.sql was not automatically executed on startup.",
+      "changes_made": [
+        "Created vibecode-log.json in project root directory for context sharing across devices.",
+        "Updated backend/index.js initDB() to execute backend/init.sql automatically on startup if tables are missing.",
+        "Added auto-seeding in initDB() for admin account (admin/admin123), student accounts, and curriculum topics/questions from CSV."
+      ],
+      "status": "RESOLVED",
+      "instructions_for_next_ai": "When starting on a new device, check DATABASE_URL environment variable in Render. On deployment, node index.js will execute init.sql to build tables automatically and seed default data. Default admin login is admin/admin123."
+    }
+  ]
+}
