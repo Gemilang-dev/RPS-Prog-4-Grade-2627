@@ -3,138 +3,169 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Add Content</title>
+  <title>Admin Dashboard - Grade 4 Programming</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
-    .admin-container {
-      max-width: 800px;
-      margin: 2rem auto;
-      background: var(--bg-card);
-      padding: 2rem;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-    }
-    .form-group {
-      margin-bottom: 1rem;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-    }
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      font-family: inherit;
-    }
-    .btn-submit {
-      background: var(--primary);
-      color: white;
-      padding: 0.85rem 1.5rem;
-      border: none;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .btn-submit:hover {
-      background: var(--primary-hover);
-    }
-    .message {
-      margin-top: 1rem;
-      font-weight: bold;
-      color: green;
-    }
+    .admin-container { max-width: 1000px; margin: 2rem auto; display: flex; gap: 2rem; }
+    .sidebar { width: 250px; background: var(--bg-card); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); height: fit-content; }
+    .sidebar-menu { list-style: none; padding: 0; margin: 0; }
+    .sidebar-menu li { padding: 0.75rem 1rem; margin-bottom: 0.5rem; cursor: pointer; border-radius: var(--radius-md); font-weight: bold; }
+    .sidebar-menu li:hover, .sidebar-menu li.active { background: var(--primary-light); color: var(--primary); }
+    .main-content { flex: 1; background: var(--bg-card); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); }
+    .section-view { display: none; }
+    .section-view.active { display: block; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); }
+    .btn { background: var(--primary); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: var(--radius-md); cursor: pointer; font-weight: bold; }
+    .btn:hover { background: var(--primary-hover); }
+    .btn-danger { background: var(--danger); }
+    .table-data { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    .table-data th, .table-data td { border: 1px solid var(--border-color); padding: 0.75rem; text-align: left; }
+    .table-data th { background: #f1f5f9; }
   </style>
 </head>
 <body>
-
   <header class="navbar">
     <div class="nav-container">
-      <a href="index.html" class="brand">
-        <div class="brand-icon">💻</div>
+      <a href="#" class="brand">
+        <div class="brand-icon">🛡️</div>
         <div class="brand-info">
-          <span class="brand-title">Admin Dashboard</span>
-          <span class="brand-subtitle">Content Manager</span>
+          <span class="brand-title">Teacher Portal</span>
+          <span class="brand-subtitle">Control Panel</span>
         </div>
       </a>
-      <a href="index.html" style="font-weight: bold;">← Back to Portal</a>
+      <div>
+        <span id="adminName" style="margin-right: 1rem; font-weight: bold;"></span>
+        <button class="btn btn-danger" onclick="logout()">Logout</button>
+      </div>
     </div>
   </header>
 
-  <main class="main-wrapper">
-    <div class="admin-container">
-      <h2 style="margin-bottom: 1.5rem;">Add New Content</h2>
-      <form id="addContentForm">
+  <main class="admin-container">
+    <aside class="sidebar">
+      <ul class="sidebar-menu">
+        <li class="active" onclick="switchTab('materi')">📚 Topics & Materials</li>
+        <li onclick="switchTab('soal')">📝 Upload Daily Tasks</li>
+
+        <li onclick="switchTab('leaderboard')">🏆 Progress & Leaderboard</li>
+      </ul>
+    </aside>
+
+    <div class="main-content">
+      
+      <!-- Topics & Materials -->
+      <section id="view-materi" class="section-view active">
+        <h2>Manage Topics & Materials</h2>
+        <p>Add new topics or lock topics to hide them from students.</p>
         
-        <div class="form-group">
-          <label for="contentType">Content Type</label>
-          <select id="contentType">
-            <option value="materials">Material</option>
-            <option value="daily-tasks">Daily Task (Soal Latihan)</option>
-            <option value="homeworks">Homework (PR)</option>
-          </select>
+        <form id="topicForm" onsubmit="addTopic(event)" style="margin-bottom: 2rem; padding: 1rem; border: 1px dashed #ccc; border-radius: 8px;">
+          <h4>Add New Topic</h4>
+          <div class="form-group"><input type="text" id="topicName" required placeholder="Topic Name (e.g., Lesson 1 - Assembly)"></div>
+          <button type="submit" class="btn">Add Topic</button>
+        </form>
+
+        <form id="materialForm" onsubmit="addMaterial(event)">
+          <h4>Add Material to Topic</h4>
+          <div class="form-group">
+            <label>Select Topic</label>
+            <select id="materialTopicId" required></select>
+          </div>
+          <div class="form-group">
+            <label>Material Title</label>
+            <input type="text" id="materialTitle" required>
+          </div>
+          <div class="form-group">
+            <label>File Type</label>
+            <select id="materialType">
+              <option value="pdf">PDF Viewer</option>
+              <option value="html">HTML / Text</option>
+              <option value="md">Markdown</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>URL / Content Text</label>
+            <textarea id="materialContent" rows="3" placeholder="Enter PDF URL or material text..."></textarea>
+          </div>
+          <button type="submit" class="btn">Upload Material</button>
+        </form>
+
+        <h4 style="margin-top: 2rem;">Topic List</h4>
+        <table class="table-data" id="topicsTable">
+          <thead><tr><th>ID</th><th>Topic</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <!-- Upload Daily Tasks -->
+      <section id="view-soal" class="section-view">
+        <h2>Upload Daily Task Question Bank</h2>
+        <p>Upload a JSON file containing the question pool for a specific topic. The system will randomly pick 10 questions per student session.</p>
+        <a href="/template_soal.json" target="_blank" style="color: blue; text-decoration: underline;">Download JSON Template</a>
+        
+        <form id="uploadSoalForm" onsubmit="uploadSoal(event)" style="margin-top: 1.5rem;">
+          <div class="form-group">
+            <label>Select Topic</label>
+            <select id="soalTopicId" required></select>
+          </div>
+          <div class="form-group">
+            <label>JSON File</label>
+            <input type="file" id="soalFile" accept=".json" required>
+          </div>
+          <button type="submit" class="btn">Upload Questions</button>
+        </form>
+      </section>
+
+      <!-- Manage Exams -->
+      <section id="view-ujian" class="section-view">
+        <h2>Manage Exams</h2>
+        <div style="display: flex; gap: 2rem;">
+          <div style="flex: 1;">
+            <h4>1. Create Exam Session</h4>
+            <form id="examForm" onsubmit="createExam(event)" style="padding: 1rem; border: 1px dashed #ccc; border-radius: 8px;">
+              <div class="form-group"><label>Exam Title</label><input type="text" id="examTitle" required></div>
+              <div class="form-group"><label>Duration (Minutes)</label><input type="number" id="examDuration" required></div>
+              <button type="submit" class="btn">Create Exam</button>
+            </form>
+          </div>
+          <div style="flex: 1;">
+            <h4>2. Upload Exam Questions</h4>
+            <form id="uploadExamQuestionsForm" onsubmit="uploadExamQuestions(event)" style="padding: 1rem; border: 1px dashed #ccc; border-radius: 8px;">
+              <div class="form-group">
+                <label>Select Exam</label>
+                <select id="examSelectId" required></select>
+              </div>
+              <div class="form-group">
+                <label>JSON File</label>
+                <input type="file" id="examSoalFile" accept=".json" required>
+              </div>
+              <button type="submit" class="btn">Upload Questions</button>
+              <br><br>
+              <a href="/template_ujian.json" target="_blank" style="color: blue; text-decoration: underline; font-size: 0.9rem;">Download JSON Template</a>
+            </form>
+          </div>
         </div>
+        
+        <h4 style="margin-top: 2rem;">Exam List</h4>
+        <table class="table-data" id="examsTable">
+          <thead><tr><th>ID</th><th>Title</th><th>Duration</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </section>
 
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" id="title" required placeholder="e.g., Introduction to Python">
-        </div>
+      <!-- Leaderboard -->
+      <section id="view-leaderboard" class="section-view">
+        <h2>Student Progress (Leaderboard)</h2>
+        <p>Accuracy is calculated only from correct answers on the FIRST attempt.</p>
+        <table class="table-data" id="leaderboardTable">
+          <thead><tr><th>Rank</th><th>Student Name</th><th>Accuracy (First Try)</th><th>Total Attempted</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </section>
 
-        <div class="form-group">
-          <label for="description">Description / Content</label>
-          <textarea id="description" rows="5" required placeholder="Enter the content or task description here..."></textarea>
-        </div>
-
-        <button type="submit" class="btn-submit">Add Content</button>
-        <div id="statusMessage" class="message"></div>
-
-      </form>
     </div>
   </main>
 
-  <script>
-    document.getElementById('addContentForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const type = document.getElementById('contentType').value;
-      const title = document.getElementById('title').value;
-      const content = document.getElementById('description').value;
-      
-      const token = localStorage.getItem('token');
-      if (!token) {
-        alert("You must be logged in to add content!");
-        return;
-      }
-      
-      const payload = { title: title };
-      if (type === 'materials') payload.content = content;
-      else payload.description = content;
-
-      try {
-        const res = await fetch(`/api/${type}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify(payload)
-        });
-        
-        if (!res.ok) throw new Error("Failed to add content. Server error.");
-        
-        document.getElementById('statusMessage').textContent = "Successfully added new content!";
-        document.getElementById('statusMessage').style.color = "green";
-        document.getElementById('addContentForm').reset();
-        
-        setTimeout(() => { document.getElementById('statusMessage').textContent = ''; }, 3000);
-        
-      } catch (err) {
-        document.getElementById('statusMessage').textContent = err.message;
-        document.getElementById('statusMessage').style.color = "red";
-      }
-    });
-  </script>
+  <script src="js/admin.js"></script>
 </body>
 </html>

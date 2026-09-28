@@ -1,0 +1,14 @@
+[
+  {
+    "type": "essay",
+    "question_text": "Jelaskan perbedaan antara RAM dan ROM."
+  },
+  {
+    "type": "code",
+    "question_text": "Buatlah fungsi rekursif sederhana untuk menghitung faktorial dari n dalam C++."
+  },
+  {
+    "type": "essay",
+    "question_text": "Apa fungsi utama dari ALU pada prosesor?"
+  }
+]

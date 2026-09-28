@@ -775,3 +775,49 @@ a:hover {
   font-weight: 600;
   color: #b91c1c;
 }
+
+/* ==========================================================================
+   GAMIFICATION OVERRIDES
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
+
+:root {
+  --primary: #8b5cf6 !important;
+  --primary-hover: #7c3aed !important;
+  --secondary: #ec4899 !important;
+  --bg-app: #f0fdf4 !important;
+  --radius-sm: 12px !important;
+  --radius-md: 16px !important;
+  --radius-lg: 24px !important;
+}
+
+body {
+  font-family: 'Fredoka', 'Plus Jakarta Sans', sans-serif !important;
+  background-image: radial-gradient(#d1fae5 3px, transparent 3px) !important;
+  background-size: 30px 30px !important;
+}
+
+.btn, .btn-choose-hw {
+  border-radius: 12px !important;
+  box-shadow: 0 6px 0 var(--primary-hover) !important;
+  transition: all 0.1s !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  font-weight: 700 !important;
+}
+
+.btn:active, .btn-choose-hw:active {
+  transform: translateY(6px) !important;
+  box-shadow: 0 0 0 var(--primary-hover) !important;
+}
+
+.content-item, .sidebar-card, .canvas-card, .login-card {
+  box-shadow: 0 8px 0 var(--border-color) !important;
+  border: 3px solid var(--border-color) !important;
+  border-radius: 20px !important;
+}
+
+.nav-item.active {
+  box-shadow: 0 4px 0 var(--primary-hover) !important;
+  border: 2px solid var(--primary) !important;
+}

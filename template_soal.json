@@ -1,0 +1,16 @@
+[
+  {
+    "topic_id": 1,
+    "type": "short_answer",
+    "question_text": "Apa nama register yang menyimpan alamat memori berikutnya?",
+    "image_url": "https://example.com/image1.png",
+    "expected_answer": "Program Counter"
+  },
+  {
+    "topic_id": 1,
+    "type": "code",
+    "question_text": "Tuliskan perintah assembly untuk memindahkan nilai 5 ke register AX.",
+    "image_url": "",
+    "expected_answer": "MOV AX, 5"
+  }
+]
