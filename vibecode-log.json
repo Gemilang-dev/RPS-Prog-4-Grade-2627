@@ -122,6 +122,18 @@
       ],
       "status": "RESOLVED",
       "instructions_for_next_ai": "Homework 3 files are stored in homework/homework-3 with packages.json manifest. All student files include security ownership checks and top navigation bar."
+    },
+    {
+      "timestamp": "2026-09-28T23:08:00+02:00",
+      "author": "Antigravity AI",
+      "action": "Added Homework 3 and dynamic homework selection cards to dashboard frontend.",
+      "issue_diagnosed": "Student dashboard in js/main.js had hardcoded HTML buttons only for Homework 1 and Homework 2, omitting Homework 3.",
+      "changes_made": [
+        "Updated js/main.js renderType === 'homeworks' to dynamically render cards for Homework 1, Homework 2, Homework 3 (Operation Red Moon), and all subsequent homeworks.",
+        "Enhanced openHomework() function in js/main.js to support Admin dashboard redirection and flexible student package matching."
+      ],
+      "status": "RESOLVED",
+      "instructions_for_next_ai": "Dashboard menu now displays cards for Homework 1 through Homework 16, allowing instant access to Homework 3."
     }
   ]
 }

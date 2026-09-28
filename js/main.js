@@ -143,16 +143,23 @@ document.addEventListener('DOMContentLoaded', () => {
       await renderTopics('daily-tasks');
     } else if (viewType === 'homeworks') {
       contentTitle.textContent = 'Homework Projects';
-      contentList.innerHTML = `
+      const homeworkList = [
+        { id: 1, title: 'Homework 1: Processor Architecture & Memory Subsystems' },
+        { id: 2, title: 'Homework 2: C++ Pointers & Memory Debugging' },
+        { id: 3, title: 'Homework 3: Digital Forensics & Assembly Investigation (Operation Red Moon)' }
+      ];
+
+      // Add Homework 4 to 16
+      for (let i = 4; i <= 16; i++) {
+        homeworkList.push({ id: i, title: `Homework ${i}` });
+      }
+
+      contentList.innerHTML = homeworkList.map(hw => `
         <div class="content-item">
-          <h3>Homework 1</h3>
-          <button class="btn-choose-hw" style="margin-top: 1rem;" onclick="openHomework(1)">Open Homework 1</button>
+          <h3>${hw.title}</h3>
+          <button class="btn-choose-hw" style="margin-top: 1rem;" onclick="openHomework(${hw.id})">Open Homework ${hw.id}</button>
         </div>
-        <div class="content-item">
-          <h3>Homework 2</h3>
-          <button class="btn-choose-hw" style="margin-top: 1rem;" onclick="openHomework(2)">Open Homework 2</button>
-        </div>
-      `;
+      `).join('');
     } else if (viewType === 'leaderboard') {
       contentTitle.textContent = '🏆 Class Leaderboard';
       await renderLeaderboard();
@@ -462,15 +469,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.openHomework = async function(hwId) {
       try {
+          const student = JSON.parse(localStorage.getItem('student') || '{}');
+          if (student.role === 'admin') {
+              window.location.href = `homework/homework-${hwId}/index.html`;
+              return;
+          }
+
           const res = await fetch(`${API_BASE}/homework/homework-${hwId}`);
           if (!res.ok) throw new Error('Homework not found');
           const packages = await res.json();
           
-          const student = JSON.parse(localStorage.getItem('student') || '{}');
           const username = (student.username || '').toLowerCase();
-          
-          // Find package where file name starts with username- to prevent partial matching (hana vs hanan)
-          const myPackage = packages.find(p => p.file.toLowerCase().startsWith(username + '-'));
+          const name = (student.name || '').toLowerCase();
+          const normalize = str => (str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+          const myPackage = packages.find(p => {
+              const normFile = normalize(p.file);
+              const normStudentName = normalize(p.studentName);
+              const normUser = normalize(username);
+              const normName = normalize(name);
+              return (
+                  p.file.toLowerCase().startsWith(username + '-') ||
+                  (normUser && (normFile.includes(normUser) || normStudentName.includes(normUser))) ||
+                  (normName && (normFile.includes(normName) || normStudentName.includes(normName)))
+              );
+          });
           
           if (myPackage) {
               window.location.href = `homework/homework-${hwId}/${myPackage.file}`;
