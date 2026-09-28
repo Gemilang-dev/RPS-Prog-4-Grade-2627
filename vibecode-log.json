@@ -147,6 +147,21 @@
       ],
       "status": "RESOLVED",
       "instructions_for_next_ai": "Answer keys are stored locally in homework-answers/ and are ignored by git."
+    },
+    {
+      "timestamp": "2026-09-28T23:31:00+02:00",
+      "author": "Antigravity AI",
+      "action": "Activated full anti-inspect, anti-right-click, anti-copy, and shortcut protection system.",
+      "issue_diagnosed": "Students could potentially use right-click (context menu), inspect element (F12 / Ctrl+Shift+I / Ctrl+Shift+J / Ctrl+U), text selection, copy-paste shortcuts, or devtools to copy questions or cheat.",
+      "changes_made": [
+        "Activated right-click (contextmenu) blocking with security toast alerts in js/security.js.",
+        "Blocked F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U, Ctrl+S, Ctrl+P, Ctrl+C, Ctrl+A shortcuts with custom warning modal and toasts.",
+        "Blocked text selection, drag-and-drop, copy, cut, and paste events on question pages.",
+        "Added dynamic DevTools window dimension detector to detect open inspect windows.",
+        "Exempted Admin accounts (role === 'admin') so teachers can inspect and grade without restrictions."
+      ],
+      "status": "RESOLVED",
+      "instructions_for_next_ai": "Anti-cheat protection is active for student accounts across all homework pages. Admins remain unrestricted."
     }
   ]
 }
