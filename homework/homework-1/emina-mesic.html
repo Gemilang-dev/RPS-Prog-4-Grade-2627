@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homework 1 - Emina Mešić</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 18mm 15mm 18mm 15mm;
+            background-color: #fdfbf7;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            font-size: 10.5pt;
+            line-height: 1.6;
+            color: #2d3748;
+            margin: 0;
+            padding: 0;
+            background-color: #fdfbf7;
+        }
+
+        /* Header Section */
+        .header-container {
+            border-bottom: 2px solid #2b6cb0;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 17pt;
+            font-weight: 700;
+            color: #1a365d;
+            margin: 0 0 8px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+        }
+
+        .meta-table td {
+            padding: 4px 0;
+            font-size: 10.5pt;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            color: #4a5568;
+            width: 120px;
+        }
+
+        .meta-value {
+            color: #2d3748;
+            font-weight: 500;
+        }
+
+        /* Instructions Card */
+        .instructions-card {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #dd6b20;
+            border-radius: 4px;
+            padding: 14px 16px;
+            margin-bottom: 24px;
+        }
+
+        .instructions-title {
+            font-size: 11pt;
+            font-weight: 700;
+            color: #c05621;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .instructions-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .instructions-list li {
+            margin-bottom: 6px;
+            color: #4a5568;
+        }
+
+        .instructions-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Section Header */
+        .section-header {
+            font-size: 13pt;
+            font-weight: 700;
+            color: #2b6cb0;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 6px;
+            margin: 24px 0 16px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            page-break-after: avoid;
+        }
+
+        /* Question Cards */
+        .question-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            page-break-inside: avoid;
+        }
+
+        .question-header {
+            display: table;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .weight-badge {
+            display: inline-block;
+            background-color: #ebf8ff;
+            color: #2b6cb0;
+            border: 1px solid #bee3f8;
+            font-weight: 700;
+            font-size: 9.5pt;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+
+        .question-title {
+            font-weight: 700;
+            color: #1a202c;
+            font-size: 11pt;
+        }
+
+        .question-body {
+            color: #4a5568;
+            margin: 0;
+            font-size: 10.5pt;
+        }
+    
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #cbd5e1;
+            font-size: 9.5pt;
+        }
+
+        .top-nav a {
+            color: #2b6cb0;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .top-nav a:hover {
+            text-decoration: underline;
+        }
+
+        .student-name-val {
+            font-weight: 700;
+            color: #2b6cb0;
+            font-size: 11pt;
+        }
+    
+    </style>
+    <link rel="stylesheet" href="../../css/security.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="top-nav">
+        <a href="../../index.html">⬅️ Return to Student Dashboard</a>
+    </div>
+
+    <!-- Header Section -->
+    <div class="header-container">
+        <h1 class="title">Homework 1: Processor Architecture &amp; Memory Subsystems</h1>
+        <table class="meta-table">
+            <tr>
+                <td class="meta-label">Student Name:</td>
+                <td class="meta-value student-name student-name-val">Emina Mešić</td>
+            </tr>
+            <tr>
+                <td class="meta-label">Course:</td>
+                <td class="meta-value">Programming (Semester 1 - Weeks 1 to 3)</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Instructions Section -->
+    <div class="instructions-card">
+        <div class="instructions-title">Important Instructions for Students</div>
+        <ul class="instructions-list">
+            <li><strong>Language:</strong> All answers must be written entirely in English.</li>
+            <li><strong>Ink Color Rule:</strong> You must write your answers using any pen color except red.</li>
+            <li><strong>AI Policy &amp; Anti-Cheating Warning:</strong> You are expected to complete this assignment on your own. Attempt to solve the tasks without using AI tools. If a question is flagged for suspected AI usage and you are caught using AI, the score for that specific question will be reduced by 30% (30% penalty).</li>
+            <li><strong>Concept Questions:</strong> For any questions asking for definitions, explanations, or conceptual understanding, you must explain the concept in your own words. Copy-pasting from external sources or AI will result in penalties.</li>
+            <li><strong>Grading Weight:</strong> Each question carries a different percentage weight indicated in brackets [X%] before the question number. Total weight equals 100%.</li>
+        </ul>
+    </div>
+
+    <!-- Assignment Questions Section -->
+    <div class="section-header">Assignment Questions (7 Tasks)</div>
+
+    <!-- Question 1 -->
+    <div class="question-card">
+        <div class="question-header">
+            <span class="weight-badge">[12%]</span>
+            <span class="question-title">Question 1</span>
+        </div>
+        <p class="question-body">Explain the main differences between a high-level programming language and a low-level language. In your own words, describe how human-readable source code is transformed step-by-step into binary machine code.</p>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="question-card">
+        <div class="question-header">
+            <span class="weight-badge">[18%]</span>
+            <span class="question-title">Question 2</span>
+        </div>
+        <p class="question-body">Explain the concepts of ALU (Arithmetic Logic Unit) and Control Unit (CU) input and output handling using the chosen analogy of a busy automotive factory assembly line (where the ALU is the mechanical press stamping out parts and the CU is the central conveyor belt motor coordinating timing). In your own words, explain how input data is processed and sent as output through this analogy.</p>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="question-card">
+        <div class="question-header">
+            <span class="weight-badge">[14%]</span>
+            <span class="question-title">Question 3</span>
+        </div>
+        <p class="question-body">Explain the concept of byte-addressable memory in your own words. If a variable is stored at base address 0x7E00 and takes 4 bytes of memory, list all individual byte addresses it occupies.</p>
+    </div>
+
+    <!-- Question 4 -->
+    <div class="question-card">
+        <div class="question-header">
+            <span class="weight-badge">[16%]</span>
+            <span class="question-title">Question 4</span>
+        </div>
+        <p class="question-body">Given an array starting at memory address 0x5B08 where each element takes 1 byte, calculate the exact hexadecimal memory addresses for Elements 1 through 5, paying special attention to the transition past hexadecimal digit 9.</p>
+    </div>
+
+    <!-- Question 5 -->
+    <div class="question-card">
+        <div class="question-header">
+            <span class="weight-badge">[13%]</span>
+            <span class="question-title">Question 5</span>
+        </div>
+        <p class="question-body">Convert the hexadecimal memory address range 0x4001 through 0x4004 into their equivalent binary representations. Show your working steps.</p>
+    </div>
+
+    <!-- Question 6 -->
+    <div class="question-card">
+        <div class="question-header">
+            <span class="weight-badge">[15%]</span>
+            <span class="question-title">Question 6</span>
+        </div>
+        <p class="question-body">In your own words, explain how a compiler and a hardware processor work together to translate high-level source code into low-level binary machine code instructions.</p>
+    </div>
+
+    <!-- Question 7 -->
+    <div class="question-card">
+        <div class="question-header">
+            <span class="weight-badge">[12%]</span>
+            <span class="question-title">Question 7</span>
+        </div>
+        <p class="question-body">Write a short reflective paragraph (in your own words) explaining why understanding low-level processor architecture, ALU/CU input-output flows, and memory addresses makes you a better high-level software developer.</p>
+    </div>
+
+</div>
+
+<script src="../../js/security.js"></script>
+</body>
+</html>
