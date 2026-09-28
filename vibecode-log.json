@@ -134,6 +134,19 @@
       ],
       "status": "RESOLVED",
       "instructions_for_next_ai": "Dashboard menu now displays cards for Homework 1 through Homework 16, allowing instant access to Homework 3."
+    },
+    {
+      "timestamp": "2026-09-28T23:18:00+02:00",
+      "author": "Antigravity AI",
+      "action": "Created homework-answers folder for teacher solution keys and added it to .gitignore.",
+      "issue_diagnosed": "Teacher required a dedicated folder containing complete solution keys for Homework 3 for each student, which must be strictly excluded from the public git repository.",
+      "changes_made": [
+        "Added 'homework-answers/' to root .gitignore.",
+        "Created scripts/generate-homework-answers.js script.",
+        "Generated complete Markdown answer key files in homework-answers/homework-3/ for all 6 students, along with a master teacher summary key (README-TEACHER-KEY.md)."
+      ],
+      "status": "RESOLVED",
+      "instructions_for_next_ai": "Answer keys are stored locally in homework-answers/ and are ignored by git."
     }
   ]
 }
