@@ -172,8 +172,8 @@ app.post('/api/question_bank/bulk', authenticateToken, requireAdmin, async (req,
     try {
         for (let q of questions) {
             await pool.query(
-                'INSERT INTO question_bank (topic_id, type, question_text, image_url, expected_answer) VALUES ($1, $2, $3, $4, $5)',
-                [q.topic_id, q.type || 'short_answer', q.question_text, q.image_url || null, q.expected_answer]
+                'INSERT INTO question_bank (topic_id, type, question_text, image_url, options, expected_answer) VALUES ($1, $2, $3, $4, $5, $6)',
+                [q.topic_id, q.type || 'short_answer', q.question_text, q.image_url || null, q.options ? JSON.stringify(q.options) : null, q.expected_answer]
             );
         }
         res.json({ message: 'Questions uploaded successfully' });
@@ -196,11 +196,11 @@ app.get('/api/question_bank', authenticateToken, requireAdmin, async (req, res) 
 
 // Admin: Create single daily task
 app.post('/api/question_bank', authenticateToken, requireAdmin, async (req, res) => {
-    const { topic_id, type, question_text, image_url, expected_answer } = req.body;
+    const { topic_id, type, question_text, image_url, options, expected_answer } = req.body;
     try {
         const r = await pool.query(
-            'INSERT INTO question_bank (topic_id, type, question_text, image_url, expected_answer) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-            [topic_id, type || 'short_answer', question_text, image_url || null, expected_answer]
+            'INSERT INTO question_bank (topic_id, type, question_text, image_url, options, expected_answer) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+            [topic_id, type || 'short_answer', question_text, image_url || null, options ? JSON.stringify(options) : null, expected_answer]
         );
         res.json(r.rows[0]);
     } catch (err) { res.status(500).json({ error: err.message }); }
@@ -208,11 +208,11 @@ app.post('/api/question_bank', authenticateToken, requireAdmin, async (req, res)
 
 // Admin: Update daily task
 app.put('/api/question_bank/:id', authenticateToken, requireAdmin, async (req, res) => {
-    const { topic_id, type, question_text, image_url, expected_answer } = req.body;
+    const { topic_id, type, question_text, image_url, options, expected_answer } = req.body;
     try {
         const r = await pool.query(
-            'UPDATE question_bank SET topic_id = $1, type = $2, question_text = $3, image_url = $4, expected_answer = $5 WHERE id = $6 RETURNING *',
-            [topic_id, type || 'short_answer', question_text, image_url || null, expected_answer, req.params.id]
+            'UPDATE question_bank SET topic_id = $1, type = $2, question_text = $3, image_url = $4, options = $5, expected_answer = $6 WHERE id = $7 RETURNING *',
+            [topic_id, type || 'short_answer', question_text, image_url || null, options ? JSON.stringify(options) : null, expected_answer, req.params.id]
         );
         res.json(r.rows[0]);
     } catch (err) { res.status(500).json({ error: err.message }); }

@@ -261,7 +261,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${imgHtml}
                     ${q.type === 'code' ? 
                       `<textarea id="ans_${q.id}" rows="4" style="width:100%; margin-top:10px; font-family: monospace;" placeholder="Write your code..."></textarea>` : 
-                      `<input type="text" id="ans_${q.id}" style="width:100%; padding:0.5rem; margin-top:10px;" placeholder="Short answer...">`
+                      (q.type === 'mcq' || q.type === 'true_false' ? 
+                          (q.options && q.options.length > 0 ? q.options.map((opt) => `<label style="display:block; margin-top:5px; cursor:pointer;"><input type="radio" name="ans_${q.id}" value="${opt.replace(/"/g, '&quot;')}"> ${opt}</label>`).join('') : `<input type="text" id="ans_${q.id}" style="width:100%; padding:0.5rem; margin-top:10px;" placeholder="Short answer...">`)
+                      : `<input type="text" id="ans_${q.id}" style="width:100%; padding:0.5rem; margin-top:10px;" placeholder="Short answer...">`)
                     }
                     <button type="button" class="btn-choose-hw" style="margin-top:10px; font-size:0.8rem;" onclick="submitAnswer(${topicId}, ${q.id})">Check Answer</button>
                     <span id="res_${q.id}" style="margin-left: 10px; font-weight:bold;"></span>
@@ -273,14 +275,22 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   
   window.submitAnswer = async function(topicId, questionId) {
-      const input = document.getElementById(`ans_${questionId}`);
+      let inputValue = '';
+      const inputEl = document.getElementById(`ans_${questionId}`);
+      if (inputEl) {
+          inputValue = inputEl.value;
+      } else {
+          const checked = document.querySelector(`input[name="ans_${questionId}"]:checked`);
+          if (checked) inputValue = checked.value;
+      }
+
       const resultSpan = document.getElementById(`res_${questionId}`);
-      if (!input.value.trim()) return alert('Please enter your answer!');
+      if (!inputValue.trim()) return alert('Please enter your answer!');
       
       const res = await fetch(`${API_BASE}/daily_tasks/submit`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-          body: JSON.stringify({ topic_id: topicId, question_id: questionId, user_answer: input.value })
+          body: JSON.stringify({ topic_id: topicId, question_id: questionId, user_answer: inputValue })
       });
       const data = await res.json();
       

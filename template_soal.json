@@ -4,13 +4,29 @@
     "type": "short_answer",
     "question_text": "Apa nama register yang menyimpan alamat memori berikutnya?",
     "image_url": "https://example.com/image1.png",
-    "expected_answer": "Program Counter"
+    "expected_answer": "Program Counter|PC"
+  },
+  {
+    "topic_id": 1,
+    "type": "mcq",
+    "question_text": "Manakah dari berikut ini yang BUKAN merupakan jenis memori?",
+    "image_url": "",
+    "options": ["RAM", "ROM", "ALU", "Cache"],
+    "expected_answer": "ALU"
+  },
+  {
+    "topic_id": 1,
+    "type": "true_false",
+    "question_text": "Bahasa Assembly adalah bahasa pemrograman tingkat tinggi.",
+    "image_url": "",
+    "options": ["Benar", "Salah"],
+    "expected_answer": "Salah"
   },
   {
     "topic_id": 1,
     "type": "code",
     "question_text": "Tuliskan perintah assembly untuk memindahkan nilai 5 ke register AX.",
     "image_url": "",
-    "expected_answer": "MOV AX, 5"
+    "expected_answer": "MOV AX, 5|mov ax, 5"
   }
 ]

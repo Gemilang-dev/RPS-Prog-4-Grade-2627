@@ -116,7 +116,7 @@
       "issue_diagnosed": "Homework 3 required unique detective case narratives and parameters for each student while maintaining identical competency structure (Assembly trace, branching logic, writing inline Assembly, compilation diagnostics).",
       "changes_made": [
         "Created scripts/setup-homework-3.js generator script.",
-        "Generated unique detective case files for each student: Amish Mohamed (Operation Red Moon), \u0160ari\u0107 Hanan (Operation Neptune Abyss), Ibrulj Hana (Operation Starlight Orbital), Me\u0161i\u0107 Emina (Operation Quantum Shield), Deli\u0107 Ahmed (Operation Hyperloop Sentinel), \u0110uderija Hamza (Operation BioGen Vault).",
+        "Generated unique detective case files for each student: Amish Mohamed (Operation Red Moon), Šarić Hanan (Operation Neptune Abyss), Ibrulj Hana (Operation Starlight Orbital), Mešić Emina (Operation Quantum Shield), Delić Ahmed (Operation Hyperloop Sentinel), Đuderija Hamza (Operation BioGen Vault).",
         "Applied security guard (security.js, security.css, student-name-val) and top navigation bar in all Homework 3 files.",
         "Created packages.json manifest for Homework 3."
       ],
@@ -176,6 +176,20 @@
       ],
       "status": "RESOLVED",
       "instructions_for_next_ai": "To specify multiple correct answers, separate them using a pipe character (|) in the expected answer field (e.g., HTML|html|Hyper Text). The backend automatically splits these and compares against user input."
+    },
+    {
+      "timestamp": "2026-09-29T11:00:57.740Z",
+      "author": "Antigravity AI",
+      "action": "Updated JSON templates and added full system support for MCQ and True/False questions.",
+      "issue_diagnosed": "The teacher required more diverse question types like MCQ and True/False in the downloadable JSON templates, but the system (DB, backend, frontend) only fully supported short_answer and code.",
+      "changes_made": [
+        "Updated template_soal.json and template_ujian.json to include 'mcq' and 'true_false' examples with an 'options' array.",
+        "Altered PostgreSQL database schema (question_bank and exam_questions) to add an 'options' JSON column.",
+        "Updated backend/index.js bulk upload and single create/update endpoints to accept, store, and return the options array.",
+        "Modified js/main.js to dynamically render radio buttons for 'mcq' and 'true_false' types in Daily Tasks and adapted submitAnswer to read from radio inputs."
+      ],
+      "status": "RESOLVED",
+      "instructions_for_next_ai": "When adding or editing 'mcq' or 'true_false' questions, provide an 'options' JSON array. The frontend will automatically render these as radio buttons. The correct answer in 'expected_answer' must exactly match one of the options."
     }
   ]
 }

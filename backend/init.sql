@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS question_bank (
     type VARCHAR(20) DEFAULT 'short_answer', -- 'short_answer', 'code'
     question_text TEXT NOT NULL,
     image_url VARCHAR(255),
+    options JSON,
     expected_answer TEXT
 );
 
@@ -64,8 +65,9 @@ CREATE TABLE IF NOT EXISTS exams (
 CREATE TABLE IF NOT EXISTS exam_questions (
     id SERIAL PRIMARY KEY,
     exam_id INTEGER REFERENCES exams(id) ON DELETE CASCADE,
-    type VARCHAR(20) DEFAULT 'theory', -- 'theory', 'coding'
+    type VARCHAR(20) DEFAULT 'theory', -- 'theory', 'coding', 'mcq'
     question_text TEXT NOT NULL,
+    options JSON,
     image_url VARCHAR(255)
 );
 
