@@ -47,7 +47,7 @@
       <ul class="sidebar-menu">
         <li class="active" onclick="switchTab('materi')">📚 Topics & Materials</li>
         <li onclick="switchTab('soal')">📝 Upload Daily Tasks</li>
-
+        <li onclick="switchTab('edit-tasks')">🛠️ Edit Daily Tasks</li>
         <li onclick="switchTab('leaderboard')">🏆 Progress & Leaderboard</li>
       </ul>
     </aside>
@@ -114,6 +114,39 @@
           </div>
           <button type="submit" class="btn">Upload Questions</button>
         </form>
+      </section>
+
+      <!-- Edit Daily Tasks -->
+      <section id="view-edit-tasks" class="section-view">
+        <h2>Edit Daily Tasks</h2>
+        <p>Manage, edit, or delete questions directly. To accept multiple correct answers, separate them with a pipe character (<code>|</code>) in the expected answer field (e.g. <code>HTML|html|Hyper Text Markup Language</code>).</p>
+        
+        <div class="form-group" style="max-width: 400px; margin-bottom: 1.5rem;">
+          <label>Filter by Topic</label>
+          <select id="filterEditTaskTopicId" onchange="loadEditTasks()"><option value="">All Topics</option></select>
+        </div>
+
+        <table class="table-data" id="editTasksTable">
+          <thead><tr><th>ID</th><th>Topic</th><th>Question</th><th>Answers (<code>|</code> separated)</th><th>Action</th></tr></thead>
+          <tbody></tbody>
+        </table>
+
+        <!-- Edit Task Modal -->
+        <div id="editTaskModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+          <div style="background:#fff; padding:2rem; border-radius:8px; width:500px; max-width:90%;">
+            <h3>Edit Question</h3>
+            <form id="editTaskForm" onsubmit="saveTaskEdit(event)">
+              <input type="hidden" id="editTaskId">
+              <div class="form-group"><label>Topic</label><select id="editTaskTopicId" required></select></div>
+              <div class="form-group"><label>Question Text</label><textarea id="editTaskText" rows="3" required></textarea></div>
+              <div class="form-group"><label>Expected Answers (use | for multiple)</label><input type="text" id="editTaskAnswer" required></div>
+              <div style="display:flex; gap:1rem; justify-content:flex-end;">
+                <button type="button" class="btn" style="background:#ccc; color:#333;" onclick="document.getElementById('editTaskModal').style.display='none'">Cancel</button>
+                <button type="submit" class="btn">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </section>
 
       <!-- Manage Exams -->

@@ -180,6 +180,52 @@ app.post('/api/question_bank/bulk', authenticateToken, requireAdmin, async (req,
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+// Admin: Get all daily tasks (optionally filter by topic_id)
+app.get('/api/question_bank', authenticateToken, requireAdmin, async (req, res) => {
+    try {
+        let query = 'SELECT * FROM question_bank ORDER BY id DESC';
+        let params = [];
+        if (req.query.topic_id) {
+            query = 'SELECT * FROM question_bank WHERE topic_id = $1 ORDER BY id DESC';
+            params = [req.query.topic_id];
+        }
+        const r = await pool.query(query, params);
+        res.json(r.rows);
+    } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// Admin: Create single daily task
+app.post('/api/question_bank', authenticateToken, requireAdmin, async (req, res) => {
+    const { topic_id, type, question_text, image_url, expected_answer } = req.body;
+    try {
+        const r = await pool.query(
+            'INSERT INTO question_bank (topic_id, type, question_text, image_url, expected_answer) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+            [topic_id, type || 'short_answer', question_text, image_url || null, expected_answer]
+        );
+        res.json(r.rows[0]);
+    } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// Admin: Update daily task
+app.put('/api/question_bank/:id', authenticateToken, requireAdmin, async (req, res) => {
+    const { topic_id, type, question_text, image_url, expected_answer } = req.body;
+    try {
+        const r = await pool.query(
+            'UPDATE question_bank SET topic_id = $1, type = $2, question_text = $3, image_url = $4, expected_answer = $5 WHERE id = $6 RETURNING *',
+            [topic_id, type || 'short_answer', question_text, image_url || null, expected_answer, req.params.id]
+        );
+        res.json(r.rows[0]);
+    } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// Admin: Delete daily task
+app.delete('/api/question_bank/:id', authenticateToken, requireAdmin, async (req, res) => {
+    try {
+        await pool.query('DELETE FROM question_bank WHERE id = $1', [req.params.id]);
+        res.json({ message: 'Deleted successfully' });
+    } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
 // Exams Management
 app.post('/api/exams', authenticateToken, requireAdmin, async (req, res) => {
     const { title, duration_minutes } = req.body;
@@ -285,9 +331,10 @@ app.post('/api/daily_tasks/submit', authenticateToken, async (req, res) => {
         const qRes = await pool.query('SELECT expected_answer FROM question_bank WHERE id = $1', [question_id]);
         if (qRes.rows.length === 0) return res.status(404).json({ error: 'Question not found' });
         
-        const expected = (qRes.rows[0].expected_answer || '').trim().toLowerCase();
+        const expectedStr = (qRes.rows[0].expected_answer || '').toLowerCase();
+        const expectedAnswers = expectedStr.split('|').map(a => a.trim());
         const actual = (user_answer || '').trim().toLowerCase();
-        const is_correct = (expected === actual);
+        const is_correct = expectedAnswers.includes(actual);
 
         const aRes = await pool.query('SELECT COUNT(*) FROM daily_task_attempts WHERE user_id = $1 AND question_id = $2', [req.user.id, question_id]);
         const attemptNum = parseInt(aRes.rows[0].count) + 1;

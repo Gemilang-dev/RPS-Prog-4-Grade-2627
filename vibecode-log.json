@@ -116,7 +116,7 @@
       "issue_diagnosed": "Homework 3 required unique detective case narratives and parameters for each student while maintaining identical competency structure (Assembly trace, branching logic, writing inline Assembly, compilation diagnostics).",
       "changes_made": [
         "Created scripts/setup-homework-3.js generator script.",
-        "Generated unique detective case files for each student: Amish Mohamed (Operation Red Moon), Šarić Hanan (Operation Neptune Abyss), Ibrulj Hana (Operation Starlight Orbital), Mešić Emina (Operation Quantum Shield), Delić Ahmed (Operation Hyperloop Sentinel), Đuderija Hamza (Operation BioGen Vault).",
+        "Generated unique detective case files for each student: Amish Mohamed (Operation Red Moon), \u0160ari\u0107 Hanan (Operation Neptune Abyss), Ibrulj Hana (Operation Starlight Orbital), Me\u0161i\u0107 Emina (Operation Quantum Shield), Deli\u0107 Ahmed (Operation Hyperloop Sentinel), \u0110uderija Hamza (Operation BioGen Vault).",
         "Applied security guard (security.js, security.css, student-name-val) and top navigation bar in all Homework 3 files.",
         "Created packages.json manifest for Homework 3."
       ],
@@ -162,6 +162,20 @@
       ],
       "status": "RESOLVED",
       "instructions_for_next_ai": "Anti-cheat protection is active for student accounts across all homework pages. Admins remain unrestricted."
+    },
+    {
+      "timestamp": "2026-09-29T10:59:00+02:00",
+      "author": "Antigravity AI",
+      "action": "Added Daily Tasks Edit Dashboard & support for multiple correct answers.",
+      "issue_diagnosed": "Teachers could not easily edit daily tasks (questions and answers) directly from the dashboard, and the system needed to accept multiple correct answers for a single task.",
+      "changes_made": [
+        "Enabled the Edit Daily Tasks UI section in admin.html.",
+        "Added loadEditTasks, openEditTaskModal, saveTaskEdit, and deleteTask functions in js/admin.js.",
+        "Updated switchTab and loadTopics in js/admin.js to render and hook up the edit tasks interface.",
+        "Confirmed backend support for multiple correct answers using pipe (|) delimiter in expected answers."
+      ],
+      "status": "RESOLVED",
+      "instructions_for_next_ai": "To specify multiple correct answers, separate them using a pipe character (|) in the expected answer field (e.g., HTML|html|Hyper Text). The backend automatically splits these and compares against user input."
     }
   ]
 }
