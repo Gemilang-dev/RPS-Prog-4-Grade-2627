@@ -436,7 +436,15 @@ function extractHeaderDataFromHtml(htmlContent, fallbackFileName) {
   };
 }
 
+app.get('/api/version', (req, res) => {
+    res.json({ version: 'v2.0-hw4-fix', timestamp: new Date().toISOString() });
+});
+
 app.get('/api/homework/:id', (req, res) => {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    res.set('Expires', '-1');
+    res.set('Pragma', 'no-cache');
+    
     const hwFolder = req.params.id.replace(/homework\s+(\d+)/gi, 'homework-$1');
     const safeHwFolder = hwFolder.replace(/[^a-zA-Z0-9-_]/g, '');
     const dirPath = path.join(__dirname, '..', 'homework', safeHwFolder);
